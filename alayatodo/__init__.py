@@ -1,8 +1,9 @@
 from flask import Flask, g
 import sqlite3
+import tempfile
 
 # configuration
-DATABASE = '/tmp/alayatodo.db'
+DATABASE = tempfile.gettempdir() + '/alayatodo.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
