@@ -6,7 +6,7 @@ Usage:
 """
 from docopt import docopt
 import subprocess
-import os
+import sys
 
 from alayatodo import app
 
@@ -20,7 +20,7 @@ def _run_sql(filename):
         )
     except subprocess.CalledProcessError, ex:
         print ex.output
-        os.exit(1)
+        sys.exit(1)
 
 
 if __name__ == '__main__':
