@@ -26,6 +26,8 @@ def home():
 
 @app.route('/login', methods=['GET'])
 def login():
+    if session.get('logged_in'):
+        return redirect('/')
     return render_template('login.html')
 
 
