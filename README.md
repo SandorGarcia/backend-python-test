@@ -1,4 +1,4 @@
-Alayacare Python skill test
+﻿Alayacare Python skill test
 ===========================
 
 
@@ -22,7 +22,7 @@ Credentials:
 ![Todos](/web/img/todos.png?raw=true "Todos")
 
 ### Requirements
-* python 5.7
+* python 2.7
 * virtualenv
 * sqlite3
 * A github account
