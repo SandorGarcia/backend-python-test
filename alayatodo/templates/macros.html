@@ -9,3 +9,30 @@
 		</form>	
 	{% endif %}
 {%- endmacro %}
+
+
+# Adapted from http://flask.pocoo.org/snippets/44/
+
+{% macro render_pagination(pagination) %}
+<div class=pagination>
+	{% if pagination.has_prev %}
+		<a href="{{ url_for('todos', page=pagination.page-1, per_page=pagination.per_page)
+		}}">&laquo;Prev </a>
+	{% endif %}
+	{%- for page in pagination.iter_pages() %}
+		{% if page %}
+			{% if page != pagination.page %}
+				<a href="{{ url_for('todos', page=page, per_page=pagination.per_page) }}">{{ page }}</a>
+			{% else %}
+				<strong>{{ page }}</strong>
+			{% endif %}
+		{% else %}
+			<span class=ellipsis>…</span>
+		{% endif %}
+	{%- endfor %}
+	{% if pagination.has_next %}
+		<a href="{{ url_for('todos', page=pagination.page+1, per_page=pagination.per_page)
+		}}">Next &raquo;</a>
+	{% endif %}
+</div>
+{% endmacro %}

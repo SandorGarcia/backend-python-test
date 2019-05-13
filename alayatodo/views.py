@@ -1,4 +1,5 @@
 from functools import wraps
+from alayatodo.pagination import Pagination
 
 from alayatodo import app
 from flask import (
@@ -72,10 +73,20 @@ def todo(id):
 @app.route('/todo/', methods=['GET'])
 @login_required
 def todos():
+    per_page = request.args.get('per_page', 5, int)
+    page = request.args.get('page', 1, int)
+	
     user_id = session['user']['id']
-    cur = g.db.execute("SELECT * FROM todos WHERE user_id = ?", (user_id,))
+    count = g.db.execute("SELECT COUNT(*) FROM todos WHERE user_id = ?", (user_id,)).fetchone()[0]
+    pagination = Pagination(page, per_page, count)
+	
+    if page > pagination.pages and page > 1:
+        return redirect('/todo')
+		
+    cur = g.db.execute("SELECT * FROM todos WHERE user_id = ? LIMIT ?,?", (user_id, per_page * (page-1), per_page))
     todos = cur.fetchall()
-    return render_template('todos.html', todos=todos)
+	
+    return render_template('todos.html', todos=todos, pagination=pagination)
 
 
 @app.route('/todo', methods=['POST'])

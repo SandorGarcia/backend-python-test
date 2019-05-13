@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% from "macros.html" import todo_completing %}
+{% from "macros.html" import todo_completing, render_pagination %}
 
 {% block content %}
 <div class="col-md-4 col-md-offset-4">
@@ -35,5 +35,6 @@
             </form>
         </tr>
     </table>
+{{ render_pagination(pagination) }}
 </div>
 {% endblock %}
