@@ -1,0 +1,11 @@
+{% macro todo_completing(todo) -%}
+	{% if todo.completed == 0 %}
+		<form method="post" action="{{ url_for('todo_complete', id=todo.id) }}">
+			<button type="submit" class="btn btn-xs"><span class="glyphicon glyphicon-unchecked"></span></button>
+		</form>
+	{% else %}
+		<form method="post" action="{{ url_for('todo_reset', id=todo.id) }}">
+			<button type="submit" class="btn btn-xs"><span class="glyphicon glyphicon-check"></span></button>
+		</form>	
+	{% endif %}
+{%- endmacro %}
