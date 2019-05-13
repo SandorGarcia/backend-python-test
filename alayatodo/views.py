@@ -71,7 +71,7 @@ def todo(id):
 @app.route('/todo/', methods=['GET'])
 @login_required
 def todos():
-    per_page = request.args.get('per_page', 2, int)
+    per_page = request.args.get('per_page', 5, int)
     page = request.args.get('page', 1, int)
 	
     user_id = session['user']['id']
