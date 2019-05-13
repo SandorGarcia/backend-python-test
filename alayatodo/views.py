@@ -42,7 +42,7 @@ def login_POST():
     password = request.form.get('password')
 
     user = User.query.filter_by(username=username).first()
-    if user.password == password:
+    if user.check_password(password):
         session['user'] = user.to_dict()
         session['logged_in'] = True
         return redirect('/todo')

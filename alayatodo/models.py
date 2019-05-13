@@ -1,6 +1,7 @@
 # Credit to The Flask Mega-Tutorial Part IV: Database
 
 from alayatodo import db
+from werkzeug.security import check_password_hash
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -9,6 +10,9 @@ class User(db.Model):
     password = db.Column(db.String)
     todos = db.relationship('Todo', backref='user', lazy='dynamic')
 
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+		
     def to_dict(self):
         return dict(
             id=self.id,
@@ -33,5 +37,5 @@ class Todo(db.Model):
             completed=self.completed
         )	
 		
-	def __repr__(self):
-return '<Todo {}>'.format(self.description)
+    def __repr__(self):
+        return '<Todo {}>'.format(self.description)

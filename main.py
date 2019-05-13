@@ -12,7 +12,6 @@ import os
 
 from alayatodo import app
 
-
 def _run_sql(filename):
     try:
         subprocess.check_output(
@@ -29,6 +28,7 @@ if __name__ == '__main__':
     args = docopt(__doc__)
     if args['initdb']:
         _run_sql('resources/database.sql')
+        _run_sql('resources/test_users.sql')
         _run_sql('resources/fixtures.sql')
         print "AlayaTodo: Database initialized."
     elif args['migratedb']:
