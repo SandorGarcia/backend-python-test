@@ -6,6 +6,7 @@ from flask import (
     redirect,
     render_template,
     request,
+	abort,
     session
     )
 
@@ -60,6 +61,8 @@ def todo(id):
     user_id = session['user']['id']
     cur = g.db.execute("SELECT * FROM todos WHERE id = ? and user_id = ?", (id, user_id))
     todo = cur.fetchone()
+    if not todo:
+        abort(404)
     return render_template('todo.html', todo=todo)
 
 
