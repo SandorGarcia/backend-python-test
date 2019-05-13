@@ -36,8 +36,8 @@ def login_POST():
     username = request.form.get('username')
     password = request.form.get('password')
 
-    sql = "SELECT * FROM users WHERE username = '%s' AND password = '%s'";
-    cur = g.db.execute(sql % (username, password))
+    sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    cur = g.db.execute(sql, (username, password))
     user = cur.fetchone()
     if user:
         session['user'] = dict(user)
@@ -57,7 +57,7 @@ def logout():
 @app.route('/todo/<id>', methods=['GET'])
 @login_required
 def todo(id):
-    cur = g.db.execute("SELECT * FROM todos WHERE id ='%s'" % id)
+    cur = g.db.execute("SELECT * FROM todos WHERE id = ?", (id,))
     todo = cur.fetchone()
     return render_template('todo.html', todo=todo)
 
@@ -78,8 +78,8 @@ def todos_POST():
     if not request.form.get('description', ''):
         return redirect('/todo')
     g.db.execute(
-        "INSERT INTO todos (user_id, description) VALUES ('%s', '%s')"
-        % (session['user']['id'], request.form.get('description', ''))
+        "INSERT INTO todos (user_id, description) VALUES (?, ?)",
+        (session['user']['id'], request.form.get('description', ''))
     )
     g.db.commit()
     return redirect('/todo')
@@ -88,7 +88,7 @@ def todos_POST():
 @app.route('/todo/<id>', methods=['POST'])
 @login_required
 def todo_delete(id):
-    g.db.execute("DELETE FROM todos WHERE id ='%s'" % id)
+    g.db.execute("DELETE FROM todos WHERE id = ?", (id,))
     g.db.commit()
     return redirect('/todo')
 	
