@@ -3,6 +3,7 @@ from functools import wraps
 from alayatodo import app
 from flask import (
     g,
+    flash,
     jsonify,
     redirect,
     render_template,
@@ -88,6 +89,7 @@ def todos_POST():
         (session['user']['id'], request.form.get('description', ''))
     )
     g.db.commit()
+    flash('TODO added successfully')
     return redirect('/todo')
 
 
@@ -97,6 +99,7 @@ def todo_delete(id):
     user_id = session['user']['id']
     g.db.execute("DELETE FROM todos WHERE id = ? and user_id = ?", (id, user_id))
     g.db.commit()
+    flash('TODO deleted successfully')
     return redirect('/todo')
 	
 
