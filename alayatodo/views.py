@@ -3,6 +3,7 @@ from functools import wraps
 from alayatodo import app
 from flask import (
     g,
+    jsonify,
     redirect,
     render_template,
     request,
@@ -115,3 +116,14 @@ def todo_reset(id):
     g.db.execute("UPDATE todos SET completed = 0 WHERE id = ? and user_id = ?", (id, user_id))
     g.db.commit()
     return redirect(request.referrer)
+
+
+@app.route('/todo/<id>/json', methods=['GET'])
+@login_required
+def todo_json(id):
+    user_id = session['user']['id']
+    cur = g.db.execute("SELECT * FROM todos WHERE id = ? and user_id = ?", (id, user_id))
+    todo = cur.fetchone()
+    if not todo:
+        abort(404)
+    return jsonify(dict(todo))
