@@ -96,13 +96,16 @@ def todo_delete(id):
 @app.route('/todo/complete/<id>', methods=['POST'])
 @login_required
 def todo_complete(id):
-    g.db.execute("UPDATE todos SET completed = 1 WHERE id = ?", (id, ))
+    user_id = session['user']['id']
+    g.db.execute("UPDATE todos SET completed = 1 WHERE id = ? and user_id = ?", (id, user_id))
     g.db.commit()
     return redirect(request.referrer)
 
+	
 @app.route('/todo/reset/<id>', methods=['POST'])
 @login_required
 def todo_reset(id):
-    g.db.execute("UPDATE todos SET completed = 0 WHERE id = ?", (id, ))
+    user_id = session['user']['id']
+    g.db.execute("UPDATE todos SET completed = 0 WHERE id = ? and user_id = ?", (id, user_id))
     g.db.commit()
     return redirect(request.referrer)
