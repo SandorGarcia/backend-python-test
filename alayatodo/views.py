@@ -57,7 +57,8 @@ def logout():
 @app.route('/todo/<id>', methods=['GET'])
 @login_required
 def todo(id):
-    cur = g.db.execute("SELECT * FROM todos WHERE id = ?", (id,))
+    user_id = session['user']['id']
+    cur = g.db.execute("SELECT * FROM todos WHERE id = ? and user_id = ?", (id, user_id))
     todo = cur.fetchone()
     return render_template('todo.html', todo=todo)
 
@@ -66,7 +67,8 @@ def todo(id):
 @app.route('/todo/', methods=['GET'])
 @login_required
 def todos():
-    cur = g.db.execute("SELECT * FROM todos")
+    user_id = session['user']['id']
+    cur = g.db.execute("SELECT * FROM todos WHERE user_id = ?", (user_id,))
     todos = cur.fetchall()
     return render_template('todos.html', todos=todos)
 
@@ -88,7 +90,8 @@ def todos_POST():
 @app.route('/todo/<id>', methods=['POST'])
 @login_required
 def todo_delete(id):
-    g.db.execute("DELETE FROM todos WHERE id = ?", (id,))
+    user_id = session['user']['id']
+    g.db.execute("DELETE FROM todos WHERE id = ? and user_id = ?", (id, user_id))
     g.db.commit()
     return redirect('/todo')
 	
