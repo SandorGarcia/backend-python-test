@@ -14,6 +14,7 @@ from flask import (
     session
     )
 
+
 def login_required(view_function):
     @wraps(view_function)
     def _wrapped(*args, **kwargs):
@@ -21,6 +22,7 @@ def login_required(view_function):
             return redirect('/login')
         return view_function(*args, **kwargs)
     return _wrapped
+
 
 @app.route('/')
 def home():

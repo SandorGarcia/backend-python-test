@@ -4,6 +4,7 @@ import tempfile
 from flask_sqlalchemy import SQLAlchemy
 import os
 
+
 # configuration
 DATABASE = tempfile.gettempdir() + '/alayatodo.db'
 DEBUG = True
@@ -13,10 +14,10 @@ PASSWORD = 'default'
 
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-print SQLALCHEMY_DATABASE_URI
 
 app = Flask(__name__)
 app.config.from_object(__name__)
 db = SQLAlchemy(app)
+
 
 import alayatodo.views
