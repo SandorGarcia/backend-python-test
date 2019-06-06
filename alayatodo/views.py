@@ -91,7 +91,8 @@ def todos():
 @app.route('/todo/', methods=['POST'])
 @login_required
 def todos_POST():
-    if not request.form.get('description', ''):
+    if not request.form.get('description'):
+        flash('TODO description can not be empty')
         return redirect('/todo')
 	
     description = request.form.get('description', '')
