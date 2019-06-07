@@ -148,5 +148,5 @@ def todo_json(id):
     todo = Todo.query.filter_by(id=id, user_id=session['user']['id']).first()
 
     if not todo:
-        return jsonify({'Error': '404', 'Message': 'Todo not found'})
+        return jsonify({'Error': '404', 'Message': 'Todo not found'}), 404
     return jsonify(todo.to_dict())
